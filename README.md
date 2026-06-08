@@ -66,7 +66,7 @@ before you even commit.
 ## Setup
 
 ```bash
-git clone https://github.com/<owner>/diffy.git
+git clone https://github.com/rbreve/diffy.git
 cd diffy
 
 python3 -m venv .venv
