@@ -14,6 +14,9 @@ It reads diffs from **GitHub** (pull-request and commit URLs) *and* from **local
 repositories** — including your **uncommitted working-tree changes**, so you can review a branch
 before you even commit.
 
+<img width="1441" height="682" alt="Screenshot 2026-06-08 at 15 00 04" src="https://github.com/user-attachments/assets/ab0b74e8-866d-4e19-bac5-7f759824a2a4" />
+
+
 > **Stack:** vanilla JS + [Monaco](https://microsoft.github.io/monaco-editor/) (loaded from CDN, no
 > build step) on the front end, and a thin [FastAPI](https://fastapi.tiangolo.com/) backend that
 > fetches diffs and proxies the AI provider — [Claude](https://www.anthropic.com/) directly or any
