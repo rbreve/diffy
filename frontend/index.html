@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diffy — a nicer diff viewer</title>
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Monaco: loaded from CDN, no build step. -->
+  <script>
+    var MONACO_BASE = 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/';
+    window.MonacoEnvironment = {
+      getWorkerUrl: function () {
+        return 'data:text/javascript;charset=utf-8,' + encodeURIComponent(
+          "self.MonacoEnvironment = { baseUrl: '" + MONACO_BASE + "' };" +
+          "importScripts('" + MONACO_BASE + "vs/base/worker/workerMain.js');"
+        );
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
+  <script>
+    require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs' } });
+    window.monacoReady = new Promise(function (resolve) {
+      require(['vs/editor/editor.main'], function () { resolve(window.monaco); });
+    });
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">▦ Diffy</div>
+
+    <div class="loader">
+      <div class="seg" id="source-seg">
+        <button data-src="github" class="active">GitHub</button>
+        <button data-src="local">Local</button>
+      </div>
+
+      <div class="src-fields" id="fields-github">
+        <input id="gh-url" type="text"
+               placeholder="https://github.com/owner/repo/pull/123  ·  or /commit/&lt;sha&gt;" />
+      </div>
+
+      <div class="src-fields hidden" id="fields-local">
+        <input id="local-path" type="text" placeholder="/path/to/repo  (Enter to load branches)" />
+        <span class="ref-arrow">base</span>
+        <select id="local-base" class="ref-select" title="Base — what you compare against">
+          <option value="">(default branch)</option>
+        </select>
+        <span class="ref-arrow">→</span>
+        <select id="local-head" class="ref-select" title="Head — what you review">
+          <option value="">(working tree — uncommitted)</option>
+        </select>
+      </div>
+
+      <button id="load-btn" class="primary">Load</button>
+    </div>
+
+    <div class="status" id="status"></div>
+  </header>
+
+  <main id="layout">
+    <section id="pane-files" class="pane">
+      <div class="pane-head">Files <span id="file-count" class="count"></span></div>
+      <div id="file-list" class="file-list">
+        <div class="empty">Load a PR, commit, or local range to begin.</div>
+      </div>
+    </section>
+
+    <section id="pane-diff" class="pane">
+      <div class="diff-toolbar">
+        <button id="nav-prev" class="iconbtn" title="Previous file (Alt+←)" disabled>‹</button>
+        <button id="nav-next" class="iconbtn" title="Next file (Alt+→)" disabled>›</button>
+        <span id="file-pos" class="file-pos"></span>
+        <span id="diff-title" class="diff-title">No file selected</span>
+        <span class="spacer"></span>
+        <button id="ctl-max" class="iconbtn" title="Maximize (Esc to exit)">⛶</button>
+        <label class="ctl"><input type="checkbox" id="ctl-sbs" checked /> Side&#8209;by&#8209;side</label>
+        <label class="ctl"><input type="checkbox" id="ctl-wrap" /> Wrap</label>
+        <label class="ctl">Font <input type="range" id="ctl-font" min="10" max="20" value="13" /></label>
+        <select id="ctl-fontfamily" class="ctl" title="Code font">
+          <option value="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">System mono</option>
+          <option value="'JetBrains Mono', monospace" style="font-family:'JetBrains Mono',monospace">JetBrains Mono</option>
+          <option value="'Fira Code', monospace" style="font-family:'Fira Code',monospace">Fira Code</option>
+          <option value="'Fantasque Sans Mono', monospace" style="font-family:'Fantasque Sans Mono',monospace">Fantasque Sans</option>
+        </select>
+        <select id="ctl-theme" class="ctl">
+          <option value="vs-dark">Dark</option>
+          <option value="vs">Light</option>
+          <option value="hc-black">High&nbsp;contrast</option>
+        </select>
+      </div>
+      <div id="diff-editor" class="diff-editor"></div>
+    </section>
+
+    <section id="pane-ai" class="pane">
+      <div class="tabs" id="ai-tabs">
+        <button data-tab="chat" class="active">Chat</button>
+        <button data-tab="summary">Summary</button>
+        <button data-tab="explain">Explain</button>
+      </div>
+
+      <div class="tab-body">
+        <div id="tab-chat" class="tab-pane active">
+          <div id="chat-messages" class="messages">
+            <div class="hint">Ask anything about the loaded change. Open a file to give the AI its full contents as extra context.</div>
+          </div>
+          <div class="chat-input">
+            <textarea id="chat-text" rows="2" placeholder="Ask about this change…  (Enter to send, Shift+Enter for newline)"></textarea>
+            <button id="chat-send" class="primary">Send</button>
+          </div>
+        </div>
+
+        <div id="tab-summary" class="tab-pane">
+          <div class="ai-actions"><button id="summary-btn" class="primary">Generate summary</button></div>
+          <div id="summary-out" class="markdown"></div>
+        </div>
+
+        <div id="tab-explain" class="tab-pane">
+          <div class="ai-actions">
+            <button id="explain-btn" class="primary">Explain this file</button>
+            <span id="explain-file" class="explain-file"></span>
+          </div>
+          <div id="explain-out" class="markdown"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

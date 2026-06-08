@@ -1,0 +1,61 @@
+/* Self-hosted code fonts. Paths are relative to this file (css/ -> ../fonts/). */
+
+/* ---- Fantasque Sans Mono (woff2/woff) ---- */
+@font-face {
+  font-family: 'Fantasque Sans Mono';
+  src: url('../fonts/fantasque_sans_mono/FantasqueSansMono-Regular.woff2') format('woff2'),
+       url('../fonts/fantasque_sans_mono/FantasqueSansMono-Regular.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Fantasque Sans Mono';
+  src: url('../fonts/fantasque_sans_mono/FantasqueSansMono-Bold.woff2') format('woff2'),
+       url('../fonts/fantasque_sans_mono/FantasqueSansMono-Bold.woff') format('woff');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Fantasque Sans Mono';
+  src: url('../fonts/fantasque_sans_mono/FantasqueSansMono-Italic.woff2') format('woff2'),
+       url('../fonts/fantasque_sans_mono/FantasqueSansMono-Italic.woff') format('woff');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Fantasque Sans Mono';
+  src: url('../fonts/fantasque_sans_mono/FantasqueSansMono-BoldItalic.woff2') format('woff2'),
+       url('../fonts/fantasque_sans_mono/FantasqueSansMono-BoldItalic.woff') format('woff');
+  font-weight: 700; font-style: italic; font-display: swap;
+}
+
+/* ---- JetBrains Mono (woff2) ---- */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/jetbrain_mono/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/jetbrain_mono/JetBrainsMono-Bold.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/jetbrain_mono/JetBrainsMono-Italic.woff2') format('woff2');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/jetbrain_mono/JetBrainsMono-BoldItalic.woff2') format('woff2');
+  font-weight: 700; font-style: italic; font-display: swap;
+}
+
+/* ---- Fira Code (ttf) ---- */
+@font-face {
+  font-family: 'Fira Code';
+  src: url('../fonts/fira_code/FiraCode-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Fira Code';
+  src: url('../fonts/fira_code/FiraCode-Bold.ttf') format('truetype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
